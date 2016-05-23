@@ -1,0 +1,416 @@
+{% load staticfiles %} 
+{% load core_extras %}
+{% load get_skills %}
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+	<meta charset="utf-8" />
+
+	<script>
+		(function(i, s, o, g, r, a, m) {
+			i['GoogleAnalyticsObject'] = r;
+			i[r] = i[r] || function() {
+				(i[r].q = i[r].q || []).push(arguments)
+			}, i[r].l = 1 * new Date();
+			a = s.createElement(o),
+				m = s.getElementsByTagName(o)[0];
+			a.async = 1;
+			a.src = g;
+			m.parentNode.insertBefore(a, m)
+		})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+		ga('create', 'UA-62933905-1', 'auto');
+		ga('send', 'pageview');
+	</script>
+	
+	<script type="text/javascript">
+    window.smartlook||(function(d) {
+    var o=smartlook=function(){ o.api.push(arguments)},s=d.getElementsByTagName('script')[0];
+    var c=d.createElement('script');o.api=new Array();c.async=true;c.type='text/javascript';
+    c.charset='utf-8';c.src='//rec.getsmartlook.com/bundle.js';s.parentNode.insertBefore(c,s);
+    })(document);
+    smartlook('init', '491c7aed0a175fa8542882f30d0f3d471e9cd445');
+</script>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" /> 
+	{% block meta %}
+	{% endblock meta %} 
+	{% block base_title %}
+	<title>{% block title %}troca.beta{% endblock title %}</title>
+	<link rel="shortcut icon" href="{% static "foundation/img/favicon.ico" %}"/> 
+	{% endblock base_title %} 
+	{# Base Foundation CSS #}
+	{% block foundation_css %}
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu:400,700,300' rel='stylesheet' type='text/css'>
+	<link href="{% static "css/normalize.css" %}" rel="stylesheet" />
+	<link href="{% static "foundation/css/foundation.min.css" %}" rel="stylesheet" />
+	<link rel="stylesheet "href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"> 
+	<link href="{% static "css/multiple-select.css" %}" rel="stylesheet">
+	{% endblock foundation_css %}
+	{# Custom CSS #} 
+	{% block css %}
+	<link rel="stylesheet "type="text/css" href="{% static "feedback/main.css" %}" />
+	<link href="{% static "css/style.css" %}" rel="stylesheet" />
+	<link href="{% static "css/hover.css" %}" rel="stylesheet" />
+	<link href="{% static "froala/css/froala_editor.min.css" %}" rel="stylesheet" />
+	<link href="{% static "froala/css/froala_style.css" %}" rel="stylesheet" />
+	<link href="{% static "froala/css/themes/custom-theme.css" %}" rel="stylesheet" />
+	{% endblock css %} {# Override if you need another version of modernizr #} {% block foundation_modernizer %}
+	{% endblock foundation_modernizer %} 
+	{# Custom head JS #}
+	{% block head_js %}
+	<script src="{% static "js/jquery.js" %}"></script>
+	<script src="{% static "js/main.js" %}"></script>
+	<script src="{% static "js/jquery-ui.js" %}"></script>
+	<script src="{% static "js/isotope.js" %}"></script>
+	<script src="{% static "froala/js/froala_editor.min.js" %}"></script>
+	<script src="{% static "froala/js/plugins/video.min.js" %}"></script>
+	<script src="{% static "froala/js/plugins/fullscreen.min.js" %}"></script>
+	<script src="{% static "froala/js/plugins/lists.min.js" %}"></script>
+  <script src="{% static "froala/js/plugins/char_counter.min.js" %}"></script>
+	<!-- Place this tag right after the last button or just before your close body tag. -->
+	<script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
+	<script src="{% static "js/jquery.multi-select.js" %}"></script>
+	<script src="{% static "js/jquery.quicksearch.js" %}"></script>
+	<script src="{% static "js/jquery.cookie.js" %}"></script>
+	<script src="{% static "js/jquery.validate.js" %}"></script>
+	<script src="{% static "js/packery.js" %}"></script>
+	<script src="https://npmcdn.com/draggabilly@2.1/dist/draggabilly.pkgd.min.js"></script>
+
+	{% endblock head_js %} 
+	{% block extrahead %}
+
+	{% endblock %}
+
+	<!-- Top Bar Nav foundation/img/logo.png -->
+	
+<div class="off-canvas-wrap" data-offcanvas>
+
+
+	<div class="sticky red-background"> <!-- contain-to-grid  -->
+		<nav class="top-bar red-background" data-topbar role="navigation" data-options="sticky_on: large"> 
+			<ul class="title-area">
+				<li id="menu">
+					
+								{% if user.is_authenticated %}<a href="#" class="left-off-canvas-toggle white-main"><i class="fa fa-bars title-icon"></i></a>{% endif %}
+					
+					</li>
+
+			</ul>
+		
+			<!-- Right Nav Section -->
+
+			<section class="top-bar-section">
+				<ul class="right">
+					{% if user.is_authenticated %}
+
+				<li class="has-dropdown">
+					 <a href="/perfil/{{ user.id }}"> 
+						  {% if user.userprofile.avatar_url.url_60x60 %}
+					       <img src="{{ user.userprofile.avatar_url.url_60x60 }}" class="img-user-small">
+							{% else %}
+					       <img src="http://s22.postimg.org/sgwv8z7kx/url.jpg" class="img-user-small">
+					     {% endif %}
+					     <!--<span class="round label mss-notif"><strong>0</strong></span>--> {{ user.username }}</a>
+					 <ul class="dropdown">
+						  <li><a href="/logout/"><i class="fa fa-sign-out"></i> Cerrar sesión</a></li>
+					</ul>
+				</li>
+				
+	
+					{% else %}
+
+					<li><a href="{% url 'register' %}">Registrarse</a></li>
+					<!--<li class="divider"></li>-->
+					<li><a href="{% url 'login' %}">Iniciar sesión</a></li>
+
+
+					{% endif %}
+				</ul>
+
+
+				<!-- Left Nav Section -->
+
+				<ul class="left hide-for-medium-only">
+					<li class="name">{% if user.is_authenticated %}
+								<h1><a href="/dashboard/{{ user.id }}/"><img img class="logo"  src="{% static "img/logo2white.png" %}" alt="Troca"></a></h1></li>
+								{% else %}
+								<h1><a href="/"><img class="logo" src="{% static "img/logo2white.png" %}" alt="Troca"></a></h1></li>
+								{% endif %}
+								<li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+					<li><a href="/colabora/trueque/"><i class="fa fa-search title-icon ml8"></i>Descubre proyectos</a></li>
+					<li><a href="/crea/"><i class="fa fa-plus-circle title-icon ml8"></i>Crea un proyecto</a></li>
+					<li><a href="/encuentra/"><i class="fa fa-users title-icon ml8"></i>Comunidad</a></li>
+				</ul>
+
+				<ul class="left show-for-medium-only">
+					<li><a href="/colabora/trueque/"><i class="fa fa-search title-icon"></i></a></li>
+					<li><a href="/crea/"><i class="fa fa-plus-circle title-icon"></i></a></li>
+					{% if user.is_authenticated %}
+					<li><a href="/encuentra/"><i class="fa fa-exchange title-icon"></i></a></li>
+					{% endif %}
+
+				</ul>
+
+			</section>
+
+
+		</nav>
+	</div>
+
+	<!-- END / Top Bar Nav -->
+
+</head>
+
+<body {% block body_attr %}{% endblock body_attr %}>
+
+
+
+<div class="inner-wrap">
+
+    <!-- Off Canvas Menu -->
+    <aside class="left-off-canvas-menu">
+      <!-- whatever you want goes here -->
+
+      <ul class="off-canvas-list">
+        <li><label>{{ user.username }}</label></li>
+        <li><a id="dashboard" href="/dashboard/{{ user.id }}/"><i class="fa fa-home title-icon ml8"></i> Vista rápida</a></li>
+        <li><a id="projects" href="/colabora/mios/"><i class="fa fa-briefcase title-icon ml8"></i> Mis proyectos</a></li>
+        <li><a id="trueques" href="/colaboraciones/{{ user.username }}/nuevas/"><i class="fa fa-retweet title-icon ml8"></i> Mis trueques {% if user.is_authenticated %} <b>{{ user | trueques_no_leidos }}</b>{%endif%}</a></li>
+     <!--  <li><a id="messages" href="#" class="disabled"><i class="fa fa-inbox title-icon ml8"></i> Mensajes</a></li> -->
+        <li><a id="comments" href="/comentarios/usuario/{{ user.username }}/"><i class="fa fa-comments-o title-icon ml8"></i> Comentarios {% if user.is_authenticated %} <b>{{ user | comentarios_no_leidos }}</b>{%endif%}</a></li>
+        <li><a id="settings" href="/configuracion/{{ user.username }}/"><i class="fa fa-cogs title-icon ml8"></i> Editar perfil</a></li>
+				<li><a href="{% url 'logout' %}"><i class="fa fa-sign-out title-icon"></i> Cerrar sesión</a></li>
+      </ul>
+
+    </aside>
+
+
+   
+{# Main content goes here #}
+
+	<!-- Main block menu -->
+	{% block base_body %} 
+	
+	{% endblock base_body %} 
+
+
+
+</div>
+
+	
+	
+	{# Custom JS #} 
+	
+	{% block body_js %}
+
+	<script type="text/javascript">
+		var _urq = _urq || [];
+		_urq.push(['initSite', 'cc8a12b8-8355-4050-b143-5fb1604c333a']);
+		(function() {
+			var ur = document.createElement('script');
+			ur.type = 'text/javascript';
+			ur.async = true;
+			ur.src = ('https:' == document.location.protocol ? 'https://cdn.userreport.com/userreport.js' : 'http://cdn.userreport.com/userreport.js');
+			var s = document.getElementsByTagName('script')[0];
+			s.parentNode.insertBefore(ur, s);
+		})();
+	</script>
+
+	{% endblock body_js %} {# Foundation JS #} {% block foundation_js %}
+	<script src="{% static "foundation/js/vendor/modernizr.js" %}"></script>
+	<script src="{% static "foundation/js/foundation.min.js" %}"></script>
+	<script src="{% static "foundation/js/foundation/foundation.magellan.js" %}"></script>
+	<script src="{% static "foundation/js/foundation/foundation.tooltip.js" %}"></script>
+
+	{% endblock foundation_js %} {# Init Foundation #} {% block foundation_js_init %}
+	<script>
+		
+		;(function ($, window, document, undefined) {
+  'use strict';
+
+  Foundation.libs.offcanvas = {
+    name : 'offcanvas',
+
+    version : '5.2.2',
+
+    settings : {
+      open_method: 'overlap',
+      close_on_click: true  
+    },
+
+    init : function (scope, method, options) {
+      this.bindings(method, options);
+    },
+
+    events : function () {
+      var self = this,
+          S = self.S;
+      if (this.settings.open_method === 'move'){
+        S(this.scope).off('.offcanvas')
+          .on('click.fndtn.offcanvas', '.left-off-canvas-toggle', function (e) {
+            self.click_toggle_class(e, 'move-right');
+          })
+          .on('click.fndtn.offcanvas', '.left-off-canvas-menu a', function (e) {
+            var settings = self.get_settings(e)
+            if (settings.close_on_click)
+              S(".off-canvas-wrap").removeClass("move-right");
+          })
+          .on('click.fndtn.offcanvas', '.right-off-canvas-toggle', function (e) {
+            self.click_toggle_class(e, 'move-left');
+          })
+          .on('click.fndtn.offcanvas', '.right-off-canvas-menu a', function (e) {
+            var settings = self.get_settings(e)
+            if (settings.close_on_click)
+              S(".off-canvas-wrap").removeClass("move-left");
+          })
+          .on('click.fndtn.offcanvas', '.exit-off-canvas', function (e) {
+            self.click_remove_class(e, 'move-left');
+            self.click_remove_class(e, 'move-right');
+          })
+      } else if (this.settings.open_method === 'overlap') {
+        S(this.scope).off('.offcanvas')
+          .on('click.fndtn.offcanvas', '.left-off-canvas-toggle', function (e) {
+            self.click_toggle_class(e, 'offcanvas-overlap');
+          })
+          .on('click.fndtn.offcanvas', '.left-off-canvas-menu a', function (e) {
+            var settings = self.get_settings(e)
+            if (settings.close_on_click)
+              S(".off-canvas-wrap").removeClass("offcanvas-overlap");
+          })
+          .on('click.fndtn.offcanvas', '.right-off-canvas-toggle', function (e) {
+            self.click_toggle_class(e, 'offcanvas-overlap');
+          })
+          .on('click.fndtn.offcanvas', '.right-off-canvas-menu a', function (e) {
+            var settings = self.get_settings(e)
+            if (settings.close_on_click)
+              S(".off-canvas-wrap").removeClass("offcanvas-overlap");
+          })
+          .on('click.fndtn.offcanvas', '.exit-off-canvas', function (e) {
+            self.click_remove_class(e, 'offcanvas-overlap');
+            self.click_remove_class(e, 'offcanvas-overlap');
+          })
+      } else {
+        return;
+      }
+    },
+
+    click_toggle_class: function(e, class_name) {
+      e.preventDefault();
+      this.S(e.target).closest('.off-canvas-wrap').toggleClass(class_name);
+    },
+
+    click_remove_class: function(e, class_name) {
+      e.preventDefault();
+      this.S('.off-canvas-wrap').removeClass(class_name);
+    },
+
+    get_settings: function(e) {
+      var offcanvas = this.S(e.target).closest('[' + this.attr_name() + ']')
+      return offcanvas.data(this.attr_name(true) + '-init') || this.settings;
+    },
+
+    reflow : function () {}
+  };
+}(jQuery, window, window.document));
+		
+		$(document).foundation();
+	</script>
+
+
+
+	{% endblock foundation_js_init %}
+</body>
+<footer>
+	<!-- Footer -->
+
+	<div class="foot-nav red-background white-main">
+
+		<div class="row">
+			<div class="small-4 large-4 columns">
+				<ul class="no-bullet">
+
+					<li>
+						<p><b>SOBRE TROCA</b></p>
+					</li>
+					<li>
+						<a class="a-white" href="{% url 'about' %}">
+							<p class="paragraph">Qué es Troca</p>
+						</a>
+					</li>
+					<li>
+						<a class="a-white" href="{% url 'ourpeople' %}">
+							<p class="paragraph">Quiénes somos</p>
+						</a>
+					</li>
+					<li>
+						<a class="a-white" href="http://troca.cc/proyecto/genitor06/trocabeta/">
+							<p class="paragraph">Voluntariado</p>
+						</a>
+					</li>
+				</ul>
+			</div>
+			<div class="small-4 large-4 columns">
+				<ul class="no-bullet">
+					<li>
+						<p><b>NAVEGACIÓN</b></p>
+					</li>
+					<li>
+						<a class="a-white" href="/descubre/">
+							<p class="paragraph">Descubre proyectos</p>
+						</a>
+					</li>
+					<li>
+						<a class="a-white" href="/crea/">
+							<p class="paragraph">Crea un proyecto</p>
+						</a>
+					</li>
+					<li>
+						<a class="a-white" href="/encuentra/">
+							<p class="paragraph">Conoce colaboradores</p>
+						</a>
+					</li>
+				</ul>
+			</div>
+			<div class="small-4 large-4 columns">
+				<ul class="no-bullet">
+					<li>
+						<p><b>REDES SOCIALES</b></p>
+					</li>
+					<li>
+						<a class="a-white" href="https://www.facebook.com/trocabeta">
+							<p class="paragraph">Facebook</p>
+						</a>
+					</li>
+					<li>
+						<a class="a-white" href="#">
+							<p class="paragraph">Twitter</p>
+						</a>
+					</li>
+					<li>
+						<a class="a-white" href="https://github.com/jovencoda/troca">
+							<p class="paragraph">Github</p>
+						</a>
+					</li>
+				</ul>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="black-bkg" style=" padding-bottom: 40px;">
+		<div class="row text-center padrl15">
+
+			<h1><a href="/"><img class="logo" src="{% static "img/logo2white.png" %}" alt="Troca"></a></h1>
+			<p class="white-main">Troca está hecha bajo la licencia <b>Creative Commons Reconocimiento-NoComercial 4.0</b></p>
+			<p class="white-main">Una página de <b><a href="https://www.behance.net/jovencoda">Bulls & Brothers</a></b></p>
+
+		</div>
+	</div>
+
+</footer>
+
+
+
+</html>

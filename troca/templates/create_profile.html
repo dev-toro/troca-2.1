@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}troca.beta | Crear perfil{% endblock title %}
+
+{% load crispy_forms_tags %}
+
+{% block base_body %}
+
+<!-- TOP BANNER DETAILS -->
+
+<div class="botborder" >
+    <div class="row ptb25 mrl20">
+        
+        <h1>Crea tu Perfil</h1>
+        <h4>Ahora para garantizar mejores resultado completa la información de tu perfil</h4>
+
+    </div>
+</div>
+<div class="bkg-white-main" >
+    <div class="row pb25">
+        
+        {% if state %} 
+            <div data-alert class="alert-box info radius">
+                ¡Los cambios de han guardado con éxito! :)
+              <a href="#" class="close">&times;</a>
+            </div>
+        {% endif %}
+    
+
+    
+        {% crispy form %}
+        
+    </div>
+</div>
+
+<script>
+  
+      $(document).ready(function(){
+        
+        $("#id_facebook").attr('placeholder', 'https://www.facebook.com/...');
+        $("#id_twitter").attr('placeholder', 'https://www.twitter.com/...');
+        
+         $('#id_facebook').focusin(function() {
+           $('#id_facebook').val('https://www.facebook.com/...' );
+         });
+        $('#id_twitter').focusin(function() {
+           $('#id_twitter').val( 'https://www.twitter.com/...' );
+         });
+   
+    });
+ 
+    $('select').multiSelect({ 
+    //selectableHeader: "<div class='custom-header'>Habilidades</div>", selectionHeader: "<div class='custom-header'>Tengos</div>", 
+    keepOrder: true,
+    selectableHeader: "<div class='custom-header'>Habilidades disponibles</div><span class='fa fa-search searchIcon'></span><input type='text' class='search-input' autocomplete='off' placeholder='Buscar...'>",
+    selectionHeader: "<div class='custom-header'>Tus habilidades</div>",
+    afterInit: function(ms){
+      var that = this,
+          $selectableSearch = that.$selectableUl.prev(),
+          $selectionSearch = that.$selectionUl.prev(),
+          selectableSearchString = '#'+that.$container.attr('id')+' .ms-elem-selectable:not(.ms-selected)',
+          selectionSearchString = '#'+that.$container.attr('id')+' .ms-elem-selection.ms-selected';
+
+      that.qs1 = $selectableSearch.quicksearch(selectableSearchString)
+      .on('keydown', function(e){
+        if (e.which === 40){
+          that.$selectableUl.focus();
+          return false;
+        }
+      });
+
+      that.qs2 = $selectionSearch.quicksearch(selectionSearchString)
+      .on('keydown', function(e){
+        if (e.which == 40){
+          that.$selectionUl.focus();
+          return false;
+        }
+      });
+    },
+    afterSelect: function(){
+      this.qs1.cache();
+      this.qs2.cache();
+    },
+    afterDeselect: function(){
+      this.qs1.cache();
+      this.qs2.cache();
+    }
+  });
+  
+</script>
+
+{% endblock base_body %}

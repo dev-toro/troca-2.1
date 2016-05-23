@@ -1,0 +1,130 @@
+{% extends "base.html" %} {% block title %}troca.beta | Descubre proyectos {% endblock title %} {% block base_body %} 
+
+{% block cat_header %}
+
+<!-- <div class="bkg-white-main">
+  <div class="row mrl20 ptb50">
+    <h1>Estos proyectos requieren de tus habilidades</h1>
+    <h4>Encontramos algunos proyectos con los que puedes empezar a colaborar</h4>
+  </div>
+</div> -->
+
+<div class="botborder">
+  <div class="row ptb25 mrl20 ">
+    {% if tipo == "donacion" %}
+    <h1>Descubre proyectos para donar</h1>
+    <p class="paragraph">Proyectos a los cuales puedes realizar una donación</p>
+    <dl class="sub-nav">
+    {% elif tipo == "trueque"  %}
+      <h1>Descubre proyectos para trocar</h1>
+    <p class="paragraph">Estos son los proyectos con los cuales puedes trocar</p>
+    <dl class="sub-nav">
+    {% elif tipo == "caducados" %}
+      <h1>Descubre proyectos caducados</h1>
+    <p class="paragraph">Proyectos que ya han terminado</p>
+    <dl class="sub-nav">
+    {% elif tipo == "mios" %}
+      <h1>Tus proyectos</h1>
+    <p class="paragraph">Proyectos que has realizado</p>
+    <dl class="sub-nav">
+    
+    {% endif %}
+      
+    <dt>Filtrar:</dt>
+    {% if tipo == "mios" %} <dd  class="active" ><a href="/colabora/mios">Míos</a></dd> {% endif %}
+    <dd {% if tipo == "todos" %} class="active" {% endif %}><a href="/descubre/">Todos</a></dd>
+      {% if user.is_authenticated %} 
+    <dd {% if tipo == "trueque" %} class="active" {% endif %}><a href="/colabora/trueque"><i class="fa fa-exchange"></i> Trocables</a></dd>
+    <dd {% if tipo == "donacion" %} class="active" {% endif %}><a href="/colabora/donacion"><i class="fa fa-gift"></i> Donables</a></dd>
+      {% endif%}
+    <dd {% if tipo == "caducados" %} class="active" {% endif %} class="hide-for-small-only"><a href="/colabora/caducados"><i class="fa fa-lock"></i> Caducados</a></dd>
+  </dl>
+  </div>
+</div>
+
+
+
+{% endblock cat_header %}
+
+<div class="bkg-white-main">
+  <div id="container" class="row pt25">
+
+    {% for project in object_list %} {% include "category_view_page.html" with object=project %} {% empty %}
+    <h6 class="subheader text-center"><i class="fa fa-life-ring"></i> No hemos encontrado proyectos en esta categoría</h6> {% endfor %}
+
+  </div>
+
+  {% include "_pagination.html" %}
+
+</div>
+
+<div class="botborder topborder">
+  <div class="row ptb25 mrl20">
+    <h1>Otros proyectos</h1>
+    <p class="paragraph">Existen otros proyectos increíbles en nuestra comunidad, navega a través de las categorías</p>
+
+    <ul class="button-group">
+
+      {% for key, values in categories.items %} {% for x in values %}
+      <li><a href="/descubre/{{ key.slug }}" class="button radius secondary">{{ key.title }} ( {{ x }} )</a></li>
+      {% endfor %} {% endfor %}
+
+    </ul>
+  </div>
+</div>
+
+<script type="text/javascript">
+  // ------ Start isotope
+
+  $('#container').isotope({
+    itemSelector: '.project_container',
+    getSortData: {
+      rate: '.rate parseInt',
+      date: function(itemElem) { // function
+        var _date = $(itemElem).find('.date').text();
+        return Date.parse(_date);
+      }
+    }
+  });
+
+  // ------ Sorting options
+  /* 
+  $('#sorts').on( 'click', 'dd', function() {
+    $('#sorts').find("dd").removeClass("active")
+    $(this).addClass( "active" )
+    var sortByValue = $(this).attr('data-sort-by');
+    $('#container').isotope({ sortBy: sortByValue, sortAscending: false });
+  });
+    */
+  $(document).ready(function() {
+
+
+    // ------ FIX || Display only one alert of colaboration
+
+    $(".colabOptions").each(function(index) {
+
+      $(this).children().first().removeClass('hidden');
+
+    });
+
+    // ------ HOVER || on every poject main image
+
+//     $(".img-container2-panel").each(function(index) {
+
+//       $(this).hover(function() {
+//         $(this).find(".overlay").fadeIn();
+//       }, function() {
+//         $(this).find(".overlay").fadeOut();
+//       });
+
+//     });
+
+    // ------ Sort isotope wall bt date (DEFAULT OPTION)
+
+    //  $('#container').isotope({ sortBy : 'date', sortAscending: false });
+
+
+  });
+</script>
+
+{% endblock base_body %}

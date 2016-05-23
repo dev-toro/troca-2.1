@@ -1,0 +1,16 @@
+{% extends "category_view.html" %}
+
+{% block title %}troca.beta | {{ main_category.title }} > {{ subcategory.title }}{% endblock title %}
+
+{% block cat_header %}
+<div class="botborder" >
+	<div class="row ptb25 mrl20">
+		
+		<h2><a href="/descubre">Descubre</a> <i class="fa fa-angle-right"></i> <a href="/descubre/{{ main_category.slug }}">{{ main_category.title }} </a> <i class="fa fa-angle-right"></i> {{ subcategory.title }}</h2>
+
+		<p class="paragraph">{{ subcategory.description }}</p>
+
+	</div>
+</div>
+{% endblock cat_header %}
+

@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load url from future %} 
+{% load get_skills %}
+{% block title %}troca.beta | Colaboraciones {% endblock title %}
+
+{% block base_body %}
+
+{% block cat_header %}
+<div class="botborder" >
+     <div class="row ptb25 mrl20">
+			  <h1>Mis trueques</h1>
+			
+			  <p class="paragraph">En esta sección puedes controlar las colaboraciones entrantes y salientes,
+			 <br> y entrar en contacto con los colaboradores</p>
+  
+			     <dl class="sub-nav">
+						<dt><i class="fa fa-filter"></i> Filtrar:</dt>
+						 	{% if user.is_authenticated %} 
+						<dd {%if tipo == "nuevas"%} class="active" {%endif%}><a href="/colaboraciones/{{user.username}}/nuevas"><i class="fa fa-bell-o"></i> Trueques entrantes</a><b>{{ user | trueques_no_leidos }}</b></dd>
+						<dd {%if tipo == "hechas"%} class="active" {%endif%} ><a href="/colaboraciones/{{user.username}}/hechas"><i class="fa fa-paper-plane-o"></i> Trueques salientes </a></dd>
+							{%endif%}
+						<dd {%if tipo == "pasadas"%} class="active" {%endif%} class="hide-for-small-only"><a href="/colaboraciones/{{user.username}}/pasadas"><i class="fa fa-history"></i> Trueques pasados</a></dd>
+					</dl>
+    </div>
+</div>
+{% endblock cat_header %}
+
+<div class="bkg-white-main">
+	
+	<div id="container" class="row pb400 pt25">
+		
+			
+		{% if colabsProfiles %}
+			{% for usu,profi in colabsProfiles.items %}
+			
+<!-- 		<<p> {{usu.username}} {{user.username}} </p> -->
+				{% if usu.username != user.username %}
+					{% include "trueques_view_page.html" with profi=profi usu=usu msnIn=message_in msnOut=message_out %}
+				{% endif %}
+			
+			{% endfor %}
+		{% else %}
+	 <h1 class="text-center">
+		 <i class="fa fa-exclamation-circle"></i>
+		</h1>
+		<h6 class="subheader text-center">¿Quieres que te recomendemos algunos proyectos con los que puedes colaborar? <a href="/colabora/trueque/">¡Por supuesto!</a></h6>	
+
+		{% endif %}
+			
+	
+	</div>
+
+
+				{% if colabsProfiles %}
+        {% include "_pagination.html"  %}
+				<script type="text/javascript">
+							// ------ Start isotope    
+					$('#container').isotope({
+							itemSelector: '.project_container',
+					});
+					
+					 $( "#trueques" ).addClass("Offactive");
+					$( ".off-canvas-wrap" ).addClass("offcanvas-overlap");
+					
+					</script>
+				{% endif %}
+			
+</div>
+
+
+{% endblock base_body %}

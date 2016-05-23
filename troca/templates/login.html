@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block base_body %}
+
+<!-- TOP BANNER DETAILS -->
+
+<div class="botborder" >
+    <div class="row ptb25 text-center">
+        
+        <h1>Iniciar sesión</h1>
+        <h4>¡Que bueno tenerte de vuelta!</h4>
+
+    </div>
+</div>
+<div class="bkg-white-main" >
+    <div class="row pb25">
+        {% csrf_token %}
+        {% crispy form %}
+    </div>
+</div>
+
+<!-- Reveal Modals begin -->
+<div id="firstModal" class="reveal-modal tiny" data-reveal aria-labelledby="firstModalTitle" aria-hidden="true" role="dialog">
+  <h3 id="firstModalTitle">Recuperar Contraseña</h3>
+  <p>Escribe tu apodo y se te enviará un correo para ayudarte a cambiar la contraseña.</p>
+  <input type="text" id="apodoRecuperar" onkeyup="completarApodoRecuperar()">
+  <p><a id="enlaceRecuperar" href="#" class="secondary button">Recuperar Ahora</a>
+  <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+</div>
+
+<script>
+function completarApodoRecuperar() {
+    var x = document.getElementById("apodoRecuperar");
+      document.getElementById("enlaceRecuperar").href="/cambiar_contrasena/"+x.value;
+  
+}
+</script>
+
+{% endblock base_body %}

@@ -1,0 +1,126 @@
+{% load humanize %}
+<div class="large-12 medium-12 columns">	
+<div class="row mb15">
+	
+
+	<div class="medium-9 large-9 columns">			
+		{% if tipo != "nuevas" %}
+			{% for usuar,proye in userColabs.items %}
+				{% ifequal usuar.username usu.username %}
+					<div class="panel radius">
+						<ul class="no-bullet">
+							{% for x in proye %}
+												
+										<li><p class="small black-shade mb20"><i class="fa fa-calendar"></i> {{ x.date|naturalday }}</p></li>
+										<li><h4 class="mb20">Tú Propones</h4></li>
+											{%if x.collaboratorProject%}
+												<li><p><i class="fa fa-long-arrow-right red-main"></i> Prestar la habilidad de <b>{{ x.collaboratorSkill }}</b> en el proyecto <strong><a href="/proyecto/{{ x.project.user.username|slugify }}/{{ x.project|slugify }}">{{ x.project }}</a></strong>
+														<br><i class="fa fa-long-arrow-left red-main"></i> Recibir la habilidad de <b>{{ x.autorSkill }}</b> en el proyecto <strong><a href="/proyecto/{{ x.project.user.username|slugify }}/{{ x.project|slugify }}">{{ x.collaboratorProject }}</a></strong>
+													</p></li>
+											{%else%}
+												<li><p><i class="fa fa-gift red-main"></i> Donar la habilidad de <b>{{ x.collaboratorSkill }}</b> en el proyecto <strong><a href="/proyecto/{{ x.project.user.username|slugify }}/{{ x.project|slugify }}">{{ x.project }}</a></strong></p></li>
+											{%endif%}
+											{%if x.isActive = 0 %}
+												<div data-alert class="alert-box secondary">
+													<i class="fa fa-clock-o"></i> Estamos esperando a que <b>{{ usu.username }}</b> acepte tu propuesta
+													<a href="#" class="close">&times;</a>
+												</div>
+											{%elif x.isActive > 0 %}
+												<div data-alert class="alert-box success radius">
+													<i class="fa fa-check"></i> ¡<b>{{ usu.username }}</b> ha aceptado tu propuesta! ¡Manos a la obra!
+													<a href="#" class="close">&times;</a>
+												</div>
+											{%else%}
+												<div data-alert class="alert-box alert radius">
+													<i class="fa fa-times"></i>  Lo sentimos, <b>{{ usu.username }}</b> ha declinado tu propuesta
+													<a href="#" class="close">&times;</a>
+												</div>						
+											{%endif%}
+									
+							{% empty %}
+								<li><p>Ninguna</p></li>
+							{% endfor %}	
+						</ul>
+					</div>
+				{% endifequal %}
+			{% endfor %}
+		{% endif %}
+		
+		{% if tipo != "hechas" %}	
+			{% for usuar,proye in revColabs.items %}
+				{% ifequal usuar.username usu.username %}
+					<div class="panel radius ">
+						<ul class="no-bullet">
+							{% for x in proye %}		
+					
+								
+									<li><p class="small black-shade mb20"><i class="fa fa-calendar"></i> {{ x.date|naturalday }}</p></li>
+									<li><h4 class="mb20">Te Proponen</h4> </li>
+									{%if x.collaboratorProject%}
+										<li><p><i class="fa fa-long-arrow-left red-main"></i> Prestar la habilidad de <b>{{ x.collaboratorSkill }}</b> en el proyecto <strong><a href="/proyecto/{{ x.project.user.username|slugify }}/{{ x.project|slugify }}">{{ x.project }}</a></strong>
+											<br><i class="fa fa-long-arrow-right red-main"></i> Recibir la habilidad de <b>{{ x.autorSkill }}</b> en el proyecto <strong><a href="/proyecto/{{ x.project.user.username|slugify }}/{{ x.project|slugify }}">{{ x.collaboratorProject }}</a></strong>
+										</p></li>
+										<!-- Cerrar trueque --> 
+										{% if user.is_authenticated and  x.isActive == 0 %} 
+											{% ifequal user.username x.autor.username %}
+												<li>
+												<a href="/colaboraciones/cerrar/{{ x.id }}/1" class="button tiny radius mb10 success"><i class="fa fa-check-square-o"></i> Aceptar trueque</a> &nbsp &nbsp <i class="fa fa-trash-o"></i><a href="/colaboraciones/cerrar/{{ x.id }}/2"> Declinar</a> 
+												</li>
+											{% endifequal %} 
+										{%elif x.isActive > 0 %}
+									<div data-alert class="alert-box success radius">
+													<i class="fa fa-check"></i> Has aceptado la propuesta de <b> {{ usu.username }}</b>
+													<a href="#" class="close">&times;</a>
+								</div>
+										{%else%}
+							<div data-alert class="alert-box alert radius">
+													<i class="fa fa-check"></i> Has declinado la propuesta de <b> {{ usu.username }}</b>
+													<a href="#" class="close">&times;</a>
+								</div>
+										{%endif%}
+									{%else%}				
+										<li><p><i class="fa fa-gift red-main"></i> Recibir la donación de la habilidad de <span class="radius label secondary " >{{ x.collaboratorSkill }}</span> en el proyecto <strong><a href="/proyecto/{{ x.project.user.username|slugify }}/{{ x.project|slugify }}">{{ x.project }}</a></strong></p></li>
+										<li class="h-divider"></li>			
+										{% if user.is_authenticated and  x.isActive == 0 %} 
+											{% ifequal user.username x.autor.username %}
+												<li>
+													<a href="/colaboraciones/cerrar/{{ x.id }}/1" class="button tiny radius mb0"><i class="fa fa-check-square-o"></i> Aceptar Donación</a>
+													<div class="closePanel"><i class="fa fa-trash-o"></i><a href="/colaboraciones/cerrar/{{ x.id }}/2"> Declinar</a></div>
+												</li>
+											{% endifequal %} 
+										{%elif x.isActive > 0 %}
+											<h6 class="subheader text-center mb0"><i class="fa fa-check"></i> Has aceptado la propuesta de <b> {{ usu.username }}</b> </h6>
+										{%else%}
+											<h6 class="subheader text-center mb0"><i class="fa fa-times"></i> Has declinado la propuesta de <b> {{ usu.username }}</b> </h6>
+										{%endif%}
+									{%endif%}
+								
+							{% empty %}
+								<li><p>Ninguna</p></li>					
+							{% endfor %}	
+						</ul>
+					</div>
+				{% endifequal %}
+			{% endfor %}
+		{% endif %}
+	</div>
+	
+			<div class="medium-3 large-3 columns">
+							<ul class="inline-list mb15">
+								<li><a href="/perfil/{{ usu.id }}"> <div class="img-container-user circular" style="background-image: url('{{ profi.avatar_url.url_700x700 }}');"></div> </a></li>
+								<li>
+									<a href="/perfil/{{ usu.id }}">
+										<h4 class="mb0 user-link">
+											{{ usu.username }} <small> <i class="fa fa-heart-o"></i> {{ profi.rate }} </small>
+										</h4>
+									</a>
+									<p class="mb0 subheader">{{ usu.first_name }} {{ usu.last_name }}</p>
+								</li>							
+							</ul>
+			<a class="button tiny radius expand mb0" href="mailto:{{ usu.email }}"><i class="fa fa-envelope-o"></i> Contactar</a>
+		</div>
+	
+	
+	</div>
+
+</div>

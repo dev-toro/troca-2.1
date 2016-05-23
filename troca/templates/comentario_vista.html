@@ -1,0 +1,146 @@
+{% load staticfiles %} 
+{% load core_extras %} 
+{% load get_skills %}
+{% load phileo_tags %} 
+
+
+<div class="row">
+{% likes user "core.Comment" as like_list %}
+
+	{% for com in comments %}
+
+	<!-- COMMENT -->
+	<div class="comment botborder">
+		<section class="top">
+			{% if mostrarProyecto %}
+			<h3> <a   href="/proyecto/{{com.userProject.username}}/{{com.project.slug}}/">
+				{{com.project.title}}
+			</a></h3>				
+			{% endif %}
+			
+			<ul class="inline-list mb15">
+				<li>
+					<a href="/perfil/{{ com.userComment.id }}">
+						<div class="img-container-user circular" style="background-image: url('{{ com.userProfileComment.avatar_url.url_700x700 }}');"></div>
+					</a>
+				</li>
+				<li>
+					<h5 class="mb0"><a href="/perfil/{{ com.user.id }}">{{ com.userComment.username }}</a></h5>
+					<p class="mb0 subheader">Comentó el {{com.date}}</p>
+				</li>
+			</ul>
+		</section>
+		<section class="commentContent">
+			<p>"{{com.comment}}"</p>
+		</section>
+		<section class="actions">
+
+			<ul class="inline-list">
+				
+				
+						<li>
+				<a  onclick="enviarLikeComentario('{{com.pk}}')" >
+							<i id="like_{{com.pk}}" class="fa fa-heart-o{% for like in like_list %}{% ifequal com  like.receiver %}no fa-heart {%endifequal%}{% endfor %}
+							"></i>	
+						{{ com|likes_count }} 
+				 Me gusta
+					</a> 
+						</li>
+				
+<!-- 				<li><a ><i class="fa fa-heart-o" aria-hidden="true"></i> Me gusta</a></li> -->
+				<li><a id="mostrar_respuestas_{{com.pk}}" onclick="mostarRespuesta('{{com.pk}}','-1')"><i class="fa fa-reply" aria-hidden="true"></i> Responder</a></li>
+			
+			</ul>
+		<form id="form-like_comment_{{com.pk}}" action="/likes/like/{{ contTypeComment }}:{{ com.id }}/" method="post">{% csrf_token %}</form>
+			
+			
+			
+			
+<!-- 			<div id="mostrar_respuestas_ com.pk" class="fa fa-comment" style="color:#c83737;" onclick="mostarRespuesta(' com.pk ','-1')"></div> -->
+		<div id="respuestas_comentario_{{com.pk}}" class="oculto" style="width:85%; margin-left:8%; visibility:hidden;">
+
+	<div id="mensajes_respuestas_comentario_{{com.pk}}">
+		{% include "comentario_responds.html" with comment=com %}
+			</div>		
+			<div>
+			<textarea id="txt_respond_{{com.pk}}" class="txt_respond" rows="1" name="respond" placeholder="Responder..."></textarea>
+			<input id="btn_respond_{{com.pk}}" class="button btn_respond" type="submit" name="submit" value="Enviar" class="btn btn-primary button radius" onclick="enviarRespuesta('{{com.pk}}','com')">
+				<div class="clear"></div>
+				</div>
+		</div>
+			
+			
+			
+
+		</section>
+
+	</div>
+
+	{% endfor %}
+
+</div>
+
+
+<script type="text/javascript">
+	function enviarRespuesta(pk, com) {
+		var com = $("#txt_respond_" + pk);
+		$.ajax({
+			url: "/comentar/{{user.username}}/" + pk + "/respuesta/",
+			data: {
+				'mensaje': com.val()
+			},
+			success: function(result) {
+				// 				alert(result);
+				var comentarios_respuestas = document.getElementById("mensajes_respuestas_comentario_" + pk);
+				// 				alert("Paso 2");
+				// 				var ht= {com|get_html_responds}  +comentarios_respuestas.innerHTML
+// 				var ht = comentarios_respuestas.innerHTML + "<br> (Recarga la página para ver el comentario)"
+				var ht =result;
+					// 				alert("Paso 2.5");
+				comentarios_respuestas.innerHTML = ht;
+
+				var tx = document.getElementById("#txt_respond_" + pk);
+				// 				alert("Paso 3");
+				com.val("");
+				// 				alert("YAY!!!");
+			}
+		});
+	}
+
+	function mostarRespuesta(pk, i) {
+		var id = "respuestas_comentario_" + pk;
+		// 		alert(id);		
+		var respuestas = document.getElementById(id);
+		if (respuestas.style.visibility == "hidden") {
+			i *= -1;
+		}
+
+		var bt = document.getElementById("mostrar_respuestas_" + pk);
+		// 		alert(bt)
+		if (i == 1) {
+			// 		$(id).css("visibility", 'visible');
+			respuestas.classList.remove("oculto");
+			respuestas.style.visibility = "visible";
+
+// 			bt.classList.remove("fa-comment");
+// 			bt.classList.add("fa-comment-o");
+		} else {
+			// 			$(id).css("visibility", 'hidden');
+
+			respuestas.classList.add("oculto");
+			respuestas.style.visibility = "hidden";
+			// 			respuestas.style.visibility="collapse";
+
+// 			bt.classList.remove("fa-comment-o");
+// 			bt.classList.add("fa-comment");
+		}
+
+	}
+	
+	function enviarLikeComentario(pk){
+		
+		var id="form-like_comment_"+pk;
+		document.getElementById(id).submit();
+		
+	}
+</script>

@@ -1,0 +1,24 @@
+
+{% extends "category_view.html" %}
+
+{% block title %}troca.beta | {{ main_category.title }} {% endblock title %}
+
+{% block cat_header %}
+<div class="botborder" >
+	<div class="row ptb25 mrl20">
+		
+		<h1><a href="/descubre">Descubre</a> <i class="fa fa-angle-right"></i> {{ main_category.title }}</h1>
+		<p class="paragraph">{{ main_category.description }}</p>
+	<!--
+		<ul class="button-group">
+		    {% for key, values in sub_categories.items %} 
+                {% for x in values %}
+                 <li><a href="/descubre/{{ main_category.slug }}/{{ key.slug }}" class="button radius secondary">{{ key.title }} ( {{ x }} )</a></li>
+                {% endfor %}
+            {% endfor %}
+
+		</ul>
+	-->
+	</div>
+</div>
+{% endblock cat_header %}

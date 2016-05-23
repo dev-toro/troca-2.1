@@ -1,0 +1,42 @@
+<div id="comentarios" class="comentarios"></div>
+<br>
+
+{% if user.is_authenticated %} 
+<textarea rows="4" cols="50" name="comment" placeholder="Escribe tu comentario..." id="txtComment"></textarea>
+<br>
+<input type="submit" name="submit" value="Comentar" class="btn btn-primary button radius" id="btn-comment">
+{% endif  %}
+<!-- username, project.slug, comment -->
+
+<script  type="text/javascript">
+$(document).ready(function(){
+  ponerPrimerosComentarios();
+    $("#btn-comment").click(function() {
+     enviarComentario();  
+    });
+});
+  
+//   /{{projectSlug}}
+  
+function enviarComentario(){
+  var com=$("#txtComment");      
+    $.ajax({
+      url: "/comentar/{{username}}/{{projectSlug.slug}}/comentario/",
+      data: {
+        'mensaje': com.val()
+        }, 
+      success: function(result){
+        $("#comentarios").html(result);
+        $("#txtComment").val("");
+        }
+      });    
+}
+  
+  function ponerPrimerosComentarios(){
+    var ur="/comentarios/{{projectSlug.slug}}/"
+    $.ajax({url: ur, success: function(result){
+            $("#comentarios").html(result);
+        }});
+  }
+  
+</script>

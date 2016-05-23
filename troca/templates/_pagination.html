@@ -1,0 +1,28 @@
+{% load i18n %}
+<div class="row ptb25 pagination-centered">
+    <ul class="pagination">
+        {% if page_obj.has_previous %}
+        <li class="arrow"><a href="?{{ page_obj.previous_page_number.querystring }}"><i class="fa fa-angle-left"></i> {% trans "anterior" %}</a></li>
+        {% else %}
+            <li class="arrow unavailable"><a href=""><i class="fa fa-angle-left"></i></a></li>
+        {% endif %}
+        {% for page in page_obj.pages %}
+            {% if page %}
+                {% ifequal page page_obj.number %}
+                    <li class="current page"><a href="">{{ page }}</a></li>
+                {% else %}
+                    <li class="page"><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                {% endifequal %}
+            {% else %}
+                ...
+            {% endif %}
+        {% endfor %}
+        {% if page_obj.has_next %}
+            <li class="arrow"><a href="?{{ page_obj.next_page_number.querystring }}">{% trans "siguiente" %} <i class="fa fa-angle-right"></i>
+    </a></li>   
+        {% else %}
+            <li class="arrow unavailable"><a href=""><i class="fa fa-angle-right"></i>
+    </a></li>
+        {% endif %}
+    </ul>
+</div>

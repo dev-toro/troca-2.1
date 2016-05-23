@@ -1,0 +1,129 @@
+{% extends "base.html" %} 
+{% block title %}troca.beta | {{ object.user.username }} {% endblock title %} 
+{% load phileo_tags %} 
+{% block base_body %}
+
+
+<!-- TOP BANNER DETAILS -->
+
+<div class="general-view ptb50">
+
+      <div class="row">
+
+        <div class="large-6 medium-6 columns">
+
+          <div class="img-container-panel3" style="background-image: url('{{ object.avatar_url.url_700x700 }}');"></div>
+
+        </div>
+
+        <div class="large-6 medium-6 columns">
+          <div class="botborder">
+            <h2>{{ object.user.username }} <small>
+                
+                {% if user.is_authenticated %} 
+                            {% ifequal user.username object.user.username %}
+                                <span data-tooltip aria-haspopup="true" class="has-tip"title="Editar el perfil">
+                                    <a href="/configuracion/{{ object.user.username }}/"><i class="fa fa-pencil-square-o red-main"></i></a>
+                                </span>
+                            {% else %}
+                            <a href="#"><i class="fa fa-envelope-o"></i></a>
+                            {% endifequal %}
+                {% endif %}  
+                
+
+							<a>
+<!-- 					{ likes user as like_list %} -->
+							<i id="like" class="fa fa-heart-o{% for like in like_list %}{% ifequal object  like.receiver %}no fa-heart {%endifequal%}{% endfor %}
+							"></i>	
+					</a> 
+					{{ object|likes_count }} </small></h2>
+							
+						
+            <h6 class="subheader">{{ object.user.first_name }} {{ object.user.last_name }}</h6>
+
+            <form id="form-like" action="/likes/like/{{ contType }}:{{ object.id }}/" method="post">{% csrf_token %}</form>
+
+            <script>
+              $('#like').click(function() {
+                $("#form-like").submit()
+                $("#like").addClass("red-main")
+              });
+
+              $('#like').mouseover(function() {
+                $("#like").addClass("red-main")
+              });
+
+              $("#like")
+                .mouseover(function() {
+                  $("#like").addClass("red-main")
+                })
+                .mouseout(function() {
+                  $("#like").removeClass("red-main")
+                });
+            </script>
+
+            <p>{{ object.about }}</p>
+
+            {% if object.facebook or object.twitter %}
+            <ul class="breadcrumbs padl0">
+              {% if object.facebook %}
+              <li><a href="{{ object.facebook }}"><i class="fa fa-facebook-official"></i> Facebook</a></li>
+              {% endif %} {% if object.twitter %}
+              <li><a href="{{ object.twitter }}"><i class="fa fa-twitter"></i> Twitter</a> {% endif %}
+              </li>
+            </ul>
+            {% endif %}
+          </div>
+
+          <h6 class="mt10"><i class="fa fa-tags "></i> Habilidades:</h6>
+
+          <ul class="inline-list">
+            {% for cat in object.category.all %}
+            <li class="label-cat"><span class="radius label secondary">{{ cat.title }}</span></li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+
+    <!-- BODY CONTENT -->
+
+
+    <!-- Implemente la sección de projects_list -->
+    <div class="bkg-white-main">
+
+      <h4 class="text-center ptb25">Proyectos del usuario</h4> {% if hasProjects%}
+
+      <div id="container" class="row mb40">
+        {% for project in projects.all %} {% include "category_view_page.html" with object=project %} {% endfor %}
+      </div>
+      {% include "_pagination.html" %} {% else %}
+      <h6 class="subheader text-center pb400 mb0"><i class="fa fa-refresh"></i> Lo sentimos, este usuario aún no tiene proyectos</h6> {% endif %}
+    </div>
+
+    <script type="text/javascript">
+      // ------ Start isotope
+
+      $('#container').isotope({
+        itemSelector: '.project_container',
+        getSortData: {
+          rate: '.rate parseInt',
+          date: function(itemElem) { // function
+            var _date = $(itemElem).find('.date').text();
+            return Date.parse(_date);
+          }
+        }
+      });
+
+
+      $(document).ready(function() {
+
+			$( ".off-canvas-wrap" ).addClass("offcanvas-overlap");
+
+      });
+    </script>
+
+
+{% endblock base_body %}

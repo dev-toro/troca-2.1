@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="117"
+   height="20"
+   id="svg4388"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="logo2.svg">
+  <defs
+     id="defs4390" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="22.4"
+     inkscape:cx="15.217877"
+     inkscape:cy="9.3760621"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="986"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata4393">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Capa 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-1032.3622)">
+    <g
+       style="fill:#000000;stroke:none;display:inline"
+       transform="matrix(0.88952565,0,0,0.88952565,-36.562579,994.07394)"
+       id="g13851-4-33-8-1-9-0-5-7-5-0-8"
+       inkscape:export-filename="/home/jovencoda/Documentos/PDG/prototipo1/proyecto.png"
+       inkscape:export-xdpi="88.652916"
+       inkscape:export-ydpi="88.652916">
+      <text
+         sodipodi:linespacing="125%"
+         id="text3884-6-4-2-0-8-332-51-9-4-1-2-5-9-6-4"
+         y="64.927666"
+         x="38.832348"
+         style="font-size:8.84551811px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Ubuntu;-inkscape-font-specification:Ubuntu"
+         xml:space="preserve"><tspan
+           style="font-size:31.84386826px;fill:#000000;fill-opacity:1"
+           y="64.927666"
+           x="38.832348"
+           id="tspan3886-1-1-6-5-8-4-6-2-6-0-6-0-3-0-2"
+           sodipodi:role="line">troca.</tspan></text>
+      <text
+         sodipodi:linespacing="125%"
+         id="text3087-9-9-0-1-9-4-8-9-0-0-9-7-6-7-7-1"
+         y="65.038673"
+         x="121.5813"
+         style="font-size:25.24743271px;font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:0px;word-spacing:0px;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.87332928;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Ubuntu;-inkscape-font-specification:Ubuntu Light"
+         xml:space="preserve"><tspan
+           style="font-size:25.24743271px;font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:125%;letter-spacing:0px;word-spacing:0px;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Ubuntu;-inkscape-font-specification:Ubuntu Light"
+           y="65.038673"
+           x="121.5813"
+           id="tspan3089-1-7-4-6-2-4-0-1-0-9-3-7-1-9-7-8"
+           sodipodi:role="line">beta</tspan></text>
+    </g>
+  </g>
+</svg>

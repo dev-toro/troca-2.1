@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}troca.beta | Conoce colaboradores{% endblock title %}
+
+{% block base_body %}
+
+{% block cat_header %}
+<div class="botborder" >
+      <div class="row ptb25 mrl20">
+        <h1>Conoce colaboradores</h1>
+        <p class="paragraph">Directorio de colaboradores de Troca, conoce gente como tú</p>
+    </div>
+</div>
+{% endblock cat_header %}
+
+<div class="bkg-white-main">
+         
+     <div id="container" class="row pt25">   
+    
+        {% for x in object_list %} 
+        {% include "user_view_page.html" with object=x  %}
+        {% endfor %} 
+        
+    </div>
+    
+        {% include "_pagination.html"  %}
+    
+</div>
+
+    <script type="text/javascript">
+    
+    $('#container').isotope({
+        itemSelector: '.project_container',
+          getSortData: {
+            rate: '.rate parseInt',
+             date: function( itemElem ) { // function
+              var _date = $( itemElem ).find('.date').text();
+              return Date.parse(_date);
+            }
+            }
+    });
+    
+    </script>
+
+{% endblock base_body %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block base_body %}
+
+<!-- TOP BANNER DETAILS -->
+
+<div class="botborder" >
+    <div class="row ptb25 text-center">
+        
+        <h1>Registro</h1>
+        <h4>¡Unos pasos más y serás parte de esta increíbe comunidad!</h4>
+
+    </div>
+</div>
+<div class="bkg-white-main" >
+    <div class="row pb25">
+        {% csrf_token %}
+        {% crispy form %}
+    </div>
+</div>
+
+<script>
+
+  $("form").validate();
+  
+</script>
+
+
+{% endblock base_body %}

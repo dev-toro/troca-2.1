@@ -1,0 +1,7 @@
+include LICENSE
+include README.rst
+recursive-include troca/static *
+recursive-include troca/templates *
+recursive-include troca/templatetags *
+recursive-include troca/troca *
+recursive-include troca/core *

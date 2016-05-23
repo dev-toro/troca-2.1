@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block base_body %}
+
+	<!-- Implemente el banner -->
+
+   {% include "banner.html" %}
+
+	<!-- Implemente la sección de proyectos seleccionados -->
+	
+    <h4 class="text-center mtb25">Proyectos seleccionados</h4>
+    
+    <ul class="selected-orbit" data-orbit data-options="slide_number:false;
+                                                        animation:slide;
+                                                        navigation_arrows:false;">
+        {% for selected in selected.all %}  
+          <li>{% include "selected_project.html" with object=selected skills=selectedAuthor%}</li>
+        {% endfor %}
+    </ul>
+   
+	<!-- Implemente la sección de highlights -->
+	
+   {% include "highlight.html" %}
+
+	<!-- Implemente la sección de projects_list -->
+
+<h4 class="text-center mtb25">Proyectos destacados</h4>
+
+
+ <div id="container" class="row mb5">   
+
+    {% for project in object_list %} 
+    {% include "category_view_page.html" with object=project skills=skillsP isIndex=True %}
+    {% endfor %} 
+    
+</div>
+
+<div class="text-center">
+    <a href="/descubre/" class="button radius mb25">Ver más proyectos</a>
+</div>
+
+</div>
+
+    <script type="text/javascript">
+    
+        // ------ Start isotope
+    
+    $('#container').isotope({
+        itemSelector: '.project_container',
+          getSortData: {
+            rate: '.rate parseInt',
+             date: function( itemElem ) { // function
+              var _date = $( itemElem ).find('.date').text();
+              return Date.parse(_date);
+            }
+            }
+    });
+    
+    $( document ).ready(function() {
+        
+        // ------ Sort isotope wall bt date (DEFAULT OPTION)
+        
+        $('#container').isotope({ sortBy : 'date', sortAscending: false });
+        
+                // ------ FIX || Display only one alert of colaboration
+                                        
+        $( ".colabOptions" ).each(function( index ) {
+                                            
+            $( this ).children().first().removeClass('hidden');
+                                        
+        });
+        
+        // ------ HOVER || on every poject main image
+        
+        $( ".img-container2-panel" ).each(function( index ) {
+                                            
+            $( this ).hover(function() {
+                    $( this ).find(".overlay").fadeIn();
+                }, function() {
+                    $( this ).find(".overlay").fadeOut();
+                }
+            );
+                                        
+        });
+         
+    });
+    
+  
+
+    </script>   
+
+{% endblock base_body %}

@@ -1,0 +1,47 @@
+   {% load phileo_tags %}
+   
+    	<div class="large-3 medium-4 project_container columns">
+					<div class="panel project_thumb bkg-white-shade hvr-shadow-radial">
+            
+           <a href="/perfil/{{ object.user.id }}">
+                <div class="img-container2-panel" style="background-image: url('{{ object.avatar_url.url_700x700 }}');">
+                    <div class="overlay red-background hidden"><i class="fa fa-search"></i></div>                  
+                </div>
+           </a>
+
+            <div class="pad15">
+
+                        <h4><a href="/perfil/{{ object.user.id }}" class="black-a">{{ object.user.username }}</a> <small>
+                        
+                        {% if user.is_authenticated %} 
+                            {% ifequal user.username object.user.username %}
+                                <span data-tooltip aria-haspopup="true" class="has-tip"title="Editar el proyecto">
+                                    <a href="/configuracion/{{ object.user.username }}"><i class="fa fa-pencil-square-o red-main"></i></a>
+                                </span>
+                            {% endifequal %}
+                        {% endif %}  
+                           
+                        <i id="like" class="fa fa-heart-o"></i> {{ object|likes_count }}
+                        </small></h4>
+                        
+                         <p>{{ object.about|truncatechars:140 }}</p>
+                        
+                        <!--
+                         <p class="small mt10"><span data-tooltip aria-haspopup="true" class="has-tip" title="Son los servicios que puede prestar">Habilidades:</span></p>
+                        
+                        <ul class="inline-list"> 
+                            {% for cat in object.category.all %}
+                                 <li class="label-cat mb10"><span class="radius label secondary " ><a href="/descubre/{{ cat.category.slug }}/{{ cat.slug }}">{{ cat.title }}</a></span></li>  
+                            {% endfor %}
+                        </ul>
+                        -->
+              
+                            <ul class="meta">
+                                <li class="date">{{ object.user.date|date:"SHORT_DATE_FORMAT" }}</li>
+                                <li class="rate">{{ object|likes_count }}</li>
+                            </ul>
+
+            </div>
+        </div>
+
+    </div>

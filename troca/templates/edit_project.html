@@ -1,0 +1,151 @@
+{% extends "create.html" %}
+
+{% block title %}troca.beta | Editar un proyecto{% endblock title %}
+
+{% block body_header %}
+<div class="botborder" >
+    <div class="row ptb25 mrl20">
+        
+        <h1>Editar un proyecto</h1>
+
+         <p class="paragraph">Perfil de usuario <i class="fa fa-angle-right"></i><a href="/perfil/{{user.id}}"> {{ user.username }}</a>
+      <br>
+        <i class="fa fa-trash-o"></i> <a href="#" data-reveal-id="firstModal" >Eliminar Proyecto</a>
+      </p> 
+      
+    </div>
+</div>
+
+<!-- Reveal Modals begin -->
+<div id="firstModal" class="reveal-modal tiny" data-reveal aria-labelledby="firstModalTitle" aria-hidden="true" role="dialog">
+  <h2 id="firstModalTitle">Eliminar Proyecto.</h2>
+  <p>¿Seguro que quiere eliminar su este proyecto?</p>
+  <p><a href="/cerrar_proyecto/{{user.username}}/{{slug}}" class="secondary button">Eliminar</a>
+  <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+</div>
+
+        <script  type="text/javascript">
+    $('select').multiSelect({ 
+    //selectableHeader: "<div class='custom-header'>Habilidades</div>", selectionHeader: "<div class='custom-header'>Tengos</div>", 
+    keepOrder: true,
+    selectableHeader: "<div class='custom-header'>Habilidades</div><span class='fa fa-search searchIcon'></span><input type='text' class='search-input' autocomplete='off' placeholder='Buscar...'>",
+    selectionHeader: "<div class='custom-header'>Necesitos</div>",
+    afterInit: function(ms){
+      var that = this,
+          $selectableSearch = that.$selectableUl.prev(),
+          $selectionSearch = that.$selectionUl.prev(),
+          selectableSearchString = '#'+that.$container.attr('id')+' .ms-elem-selectable:not(.ms-selected)',
+          selectionSearchString = '#'+that.$container.attr('id')+' .ms-elem-selection.ms-selected';
+
+      that.qs1 = $selectableSearch.quicksearch(selectableSearchString)
+      .on('keydown', function(e){
+        if (e.which === 40){
+          that.$selectableUl.focus();
+          return false;
+        }
+      });
+
+      that.qs2 = $selectionSearch.quicksearch(selectionSearchString)
+      .on('keydown', function(e){
+        if (e.which == 40){
+          that.$selectionUl.focus();
+          return false;
+        }
+      });
+    },
+    afterSelect: function(){
+      this.qs1.cache();
+      this.qs2.cache();
+    },
+    afterDeselect: function(){
+      this.qs1.cache();
+      this.qs2.cache();
+    }
+  });
+      
+       </script>
+
+<script  type="text/javascript">
+$(document).ready(function(){
+   
+
+//    alert($('#submit-id-submit').html());
+   var info=$('#div_id_needs');
+//    alert(info.html())
+//    info.mouseenter(function(){
+   info.mousedown(function(){
+     escribirCategorias(false);
+   });   
+   
+
+   $('#submit-id-submit').attr("value","Actualizar");
+  });
+  
+  
+  
+  function cargarCategorias(b) { 
+     cate=$('#div_id_needs').find("p");     
+    if( b | cate.html() == "" | cate.html() == "<br>" ){
+        hijos="";
+        var ele = $('#ms-id_category');   
+        var childs = ele.find(".ms-selection").find("ul").children().each(function(i) { 
+        var t=$(this);
+          var nombre=t.find("span").html();   
+          hijos+="<li ";
+          if(t.attr("style") == "display: none;"){
+            hijos+=" style='display: none;' ";
+          }
+        hijos+=" id='"+normalize(nombre)+"'> <b>"+nombre+":</b>  <br/> </br> </li>";
+      });
+      cate.html(hijos);
+    }else{
+      var ele = $('#ms-id_category');   
+      var childs = ele.find(".ms-selection").find("ul").children().each(function(i) { 
+          var t=$(this);
+          var nombre=t.find("span").html();
+          var ele=$('#div_id_needs').find("p").find('#'+normalize(nombre));
+           if(t.attr("style") == "display: none;"){
+              ele.attr("style","display: none;");
+            }else{
+              ele.attr("style","");
+            }
+      });     
+     }
+  }
+    
+    function escribirCategorias(b) { 
+     cate=$('#div_id_needs').find("p");     
+    if( b | cate.html() == "" | cate.html() == "<br>" ){
+        hijos="";
+        var ele = $('#ms-id_category');   
+        var childs = ele.find(".ms-selection").find("ul").children(".ms-selected").each(function(i) { 
+          alert("asdas")
+        var t=$(this);
+          var nombre=t.find("span").html();            
+        hijos+="<b>"+nombre+":</b> <br/> <br/>";
+      });
+      cate.html(hijos);
+    }else{
+      var ele = $('#ms-id_category');         
+      eleme=$('#div_id_needs').find("p");
+      ht1=eleme.html();
+      ht2="";    
+      var childs = ele.find(".ms-selection").find("ul").children(".ms-selected").each(function(i) { 
+          var t=$(this);
+          var nombre=t.find("span").html();
+              
+          if ( ! (ht1.indexOf(nombre+":")>=0)){
+            ht2 += "<b>"+nombre+":</b> <br/> <br/>";
+          }
+          
+      });      
+      eleme.html(ht2+ht1);
+     }       
+}
+ 
+ 
+ function normalize(ret){
+   return ret.replace( /[^-A-Za-z0-9]+/g,'_').toLowerCase();   
+ }
+</script>
+{% endblock body_header %}

@@ -1,0 +1,136 @@
+{% extends "base.html" %} {% block title %}troca.beta | {{ object.user.username }} {% endblock title %} {% load phileo_tags %} {% block base_body %}
+
+
+    <div class="row ptb25 prl25" style="margin-bottom: 120px;">
+
+      <div class="large-12 columns">
+
+        <h3 class="mb25">Vista rápida</h3>
+
+        <!-- Welcome Dashboard -->
+
+        <div class="panel">
+          <h4>¡Bienvenido a Troca!</h4>
+          <p>Preparamos algunas ayudas y enlaces rápidos para que tí</p>
+
+
+          <div class="row">
+            <div class="small-12 medium-4 large-4 columns">
+              <div class="text-center">
+                <h3 class="hvr-rotate"> <i class="fa fa-exchange circlenumber"></i></h3>
+                <h4>Trueque</h4>
+                <p>El trueque es una forma de colaboración en la cual se ofrece una habilidad y a cambio se recibe otra, permitiendo que dos proyectos suplan sus necesidades</p>
+                <a href="/colabora/trueque/" class="button tiny secondary radius"><i class="fa fa-search"></i> Buscar proyectos trocables</a>
+              </div>
+            </div>
+            <div class="small-12 medium-4 large-4 columns">
+              <div class="text-center">
+                <h3 class="hvr-rotate"> <i class="fa fa-gift circlenumber"></i></h3>
+                <h4>Donación</h4>
+                <p>La donación por otro lado es una forma de colaboración en la cual se ofrece una habilidad de forma desinteresada, sin esperar recibir otra a cambio</p>
+                <a href="/colabora/donacion/" class="button tiny secondary radius"><i class="fa fa-search"></i> Buscar proyectos donables</a>
+              </div>
+            </div>
+            <div class="small-12 medium-4 large-4 columns">
+              <h4 style="margin-top: 90px;">Próximos pasos en troca</h4>
+              <ul class="no-bullet ulh2">
+                <li><a href="/crea/"><i class="fa fa-plus-circle"></i> Crear un proyecto</a></li>
+                <li><a href="/quienes_somos/"><i class="fa fa-info-circle"></i> ¿Quíenes somos?</a></li>
+                <li><a href="/crea/"><i class="fa fa-heart"></i> Ayúdanos a crecer</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Comments and Activity -->
+
+        <div class="row">
+          <div class="small-12 medium-6 large-6 columns">
+            <div class="panel p0">
+              <div class="panel-header">
+                <h5>Mis ultimos trueques</h5>
+              </div>
+              <div class="panel-content">
+                               
+             {% for x in collabs %}                
+                {% if x.autor == user %}                
+                
+									<a href="/perfil/{{ x.collaborator.id }}">
+										<span class="mb0 user-link">
+											{{ x.collaborator.username }}
+                      ( {{ x.collaborator.first_name }} {{ x.collaborator.last_name }} )
+                    </sapn>
+									</a>
+									 propone: <br>
+                
+                <b>{{x.collaboratorSkill}}</b> <i class="fa fa-long-arrow-right red-main"></i>   <strong><a href="/proyecto/{{ x.project.user.username|slugify }}/{{ x.project|slugify }}">  {{x.project}} </a></strong> <br>
+                  {%if x.autorSkill %}
+                <strong><a href="/proyecto/{{ x.project.user.username|slugify }}/{{ x.project|slugify }}">{{ x.collaboratorProject }}</a></strong> <i class="fa fa-long-arrow-left red-main"></i> <b>{{x.autorSkill}}</b> <br>
+                  {%endif%}
+                {%else%}
+                  
+                <a href="/perfil/{{ x.collaborator.id }}">
+										<span class="mb0 user-link">
+											Tú 
+                    </sapn>
+									</a>
+                 propones: <br> 
+                <b>{{x.collaboratorSkill}} </b> <i class="fa fa-long-arrow-right red-main"></i> <strong><a href="/proyecto/{{ x.project.user.username|slugify }}/{{ x.project|slugify }}">{{x.project}} </a></strong><br>
+                  {%if x.autorSkill %}
+                <strong><a href="/proyecto/{{ x.project.user.username|slugify }}/{{ x.project|slugify }}"> {{x.collaboratorProject}}</a></strong> <i class="fa fa-long-arrow-left red-main"></i> <b>{{x.autorSkill}}</b> <br>
+                  {%endif%}
+                {% endif %}
+                <hr>
+               	{% empty %}
+								 <p>
+                  No han habido colaboraciones recientes :(
+                </p>
+							{% endfor %}	
+              </div>
+            </div>
+          </div>
+          <div class="small-12 medium-6 large-6 columns">
+            <div class="panel p0">
+              <div class="panel-header">
+                <h5>Ultimos comentarios</h5>
+              </div>
+              <div class="panel-content">
+
+                <!-- COMMENT -->
+                <div class="comment">
+									
+									{% include "comentario_vista.html"  with comments=comments  mostrarProyecto=True %}	
+<!-- 									
+                     <p>
+                  Donec orci lectus, aliquam ut, faucibus non, euismod id, nulla. Pellentesque dapibus hendrerit tortor. Curabitur turpis. Etiam iaculis nunc ac metus. Phasellus dolor. Sed cursus turpis vitae tortor. Maecenas ullamcorper, dui et placerat feugiat, eros
+                  pede varius nisi, condimentum viverra felis nunc et lorem. Nullam dictum felis eu pede mollis pretium. Donec orci lectus, aliquam ut, faucibus non, euismod id, nulla.
+                </p> -->
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <!-- row-->
+        </div>
+          
+      </div>
+    </div>
+
+
+    <!-- close the off-canvas menu
+    <a class="exit-off-canvas"></a>
+
+  </div>    -->
+
+<script>
+
+	$(document).ready(function() {
+      $( "#dashboard" ).addClass("Offactive");
+			$( ".off-canvas-wrap" ).addClass("offcanvas-overlap");
+});
+
+</script>
+
+
+
+{% endblock base_body %}

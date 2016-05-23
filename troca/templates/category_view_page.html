@@ -1,0 +1,91 @@
+{% load phileo_tags %}
+{% load humanize %}
+{% load sanitizer %}
+{% load get_skills %}
+	
+	<div class="large-3 medium-4 project_container columns">
+		
+
+					<div class="panel project_thumb bkg-white-shade hvr-shadow-radial">
+
+            <a href="/proyecto/{{ project.user }}/{{ project.slug }}">
+                <div class="img-container2-panel" style="background-image: url('{{ project.thumbnail_url.url_700x700 }}');">
+                  <!--<div class="overlay hidden"><i class="fa fa-search"></i></div>-->
+									{% if not project.isActive %} 
+									
+									<div class="status bkg-white-shades black-main">
+										<span data-tooltip aria-haspopup="true" class="has-tip tip-right black-main" title="Este proyecto ha caducado">
+										<i class="fa fa-hourglass-end"></i>
+										</span>
+									</div>
+									
+									{% elif project.num_needs >= 100 %}
+									
+									<div class="status bkg-white-shades black-main">
+										<span data-tooltip aria-haspopup="true" class="has-tip tip-right black-main" title="Este proyecto está completo">
+										<i class="fa fa-lock"></i>
+										</span>
+									</div>
+									
+									{% elif loggedUser|user_gives:project >= 2 %} 
+									
+									<div class="status blue-background">
+										<span data-tooltip aria-haspopup="true" class="has-tip tip-right white-main" title="Puedes trocar con este proyecto">
+										<i class="fa fa-exchange"></i>
+										</span>
+									</div>
+									{% elif loggedUser|user_gives:project >= 1 %}
+									
+									<div class="status blue-background">
+										<span data-tooltip aria-haspopup="true" class="has-tip tip-right white-main" title="Puedes donar una o más <br> habilidades a este proyecto">
+										<i class="fa fa-gift"></i>
+										</span>
+									</div>
+									
+									{% elif loggedUser|user_gives:project == 0 %}
+<!-- 									<div class="status bkg-white-shades black-main"><i class="fa fa-times-circle"></i></div> -->
+									{% endif %}
+									
+                </div>
+           </a>
+
+			<div class="project-card-content pad15">
+						<h4><a href="/proyecto/{{ project.user }}/{{ project.slug }}" class="black-a">{{ project.title|truncatechars:26 }}</a> <small>
+    				    
+    				    {% if user.is_authenticated %} 
+                            {% ifequal user.username project.user.username %}
+                                <span data-tooltip aria-haspopup="true" class="has-tip"title="Editar el proyecto">
+                                    <a href="/proyecto/editar/{{ project.user.username }}/{{ project.slug }}"><i class="fa fa-pencil-square-o red-main"></i></a>
+                                </span>
+                            {% endifequal %}
+                        {% endif %}  
+                           
+                        </small></h4>
+
+						<h6 class="subheader small">Publicado por <a href="/perfil/{{ project.user.id }}"class="user-link">{{ object.user|truncatechars:20 }}</a> </h6>
+                                 
+								{% autoescape off %}
+                      <p>{{ object.summary|strip_html }}</p>
+                {% endautoescape %}  
+
+                            <ul class="meta">
+                                <li class="date">{{ project.date|naturalday }}</li>
+                                <li class="rate">{{ project|likes_count }}</li>
+                                <li class="expire">{{ project.expire_date }}</li>
+                                <ul class="project-needs">
+                                       {% for cat in project.category.all %} 
+                                        <li>{{ cat.slug }}</li>
+                                       {% endfor %} 
+                                </ul>
+                            </ul>
+
+			</div>
+						
+			<div class="project-card-footer">
+				<p class="left"><b><i id="like" class="fa fa-heart-o"></i> {{ object|likes_count }}</b></p>
+				<p class="right"><i class="fa fa-calendar"></i> {{ project.date|naturalday }}</p>
+			</div>
+						
+		</div>
+
+	</div>

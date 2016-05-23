@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load url from future %} 
+
+{% block title %}troca.beta | Comentarios {% endblock title %}
+
+{% block base_body %}
+
+{% block cat_header %}
+<div class="botborder" >
+     <div class="row ptb25 mrl20">
+			  <h1>Comentarios recibidos</h1>
+			
+			  <p class="paragraph">En esta sección puedes controlar las colaboraciones entrantes y salientes,
+			 <br> y entrar en contacto con los colaboradores</p>
+  
+			  
+    </div>
+</div>
+{% endblock cat_header %}
+
+<div class="bkg-white-main">
+	
+	<div id="container" class="row pb400 pt25">
+		
+			
+	
+		
+		 <div class="small-12 medium-6 large-6 columns">
+			 
+            <div class="panel p0">
+              <div class="panel-header">
+                <h5>Comentarios recibidos</h5>
+              </div>
+              <div class="panel-content">
+	{% include "comentario_vista.html"  with comments=commentsR  mostrarProyecto=True %}
+          </div>
+		</div>
+	</div>
+		
+		
+		 <div class="small-12 medium-6 large-6 columns">
+			 
+            <div class="panel p0">
+              <div class="panel-header">
+                <h5>Comentarios hechos</h5>
+              </div>
+              <div class="panel-content">
+	{% include "comentario_vista.html"  with comments=commentsH  mostrarProyecto=True %}
+          </div>
+		</div>
+	</div>
+
+
+			
+			
+</div>
+	</div>
+
+
+{% endblock base_body %}

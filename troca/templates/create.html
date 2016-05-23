@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+
+
+{% block title %}troca.beta | Crear habilidad{% endblock title %}
+
+{% csrf_token %} 
+
+{% block base_body %}
+
+<!-- TOP BANNER DETAILS -->
+
+{% block body_header %}
+<div class="botborder" >
+    <div class="row ptb25 mrl20">
+        
+        <h1>Crea un proyecto</h1>
+        <h4>Completa la información sobre tu proyecto</h4>
+
+    </div>
+</div>
+{% endblock body_header %}
+
+
+<div class="bkg-white-main" >
+    <div class="row pb25 mrl20">
+    
+        {% crispy form %}   
+			
+ 
+
+    </div>
+</div>
+
+{% block js %}
+               <script>
+          $('select').multiSelect({
+    //selectableHeader: "<div class='custom-header'>Habilidades</div>", selectionHeader: "<div class='custom-header'>Tengos</div>", 
+    keepOrder: true,
+    selectableHeader: "<div class='custom-header'>Habilidades disponibles</div><span class='fa fa-search searchIcon'></span><input type='text' class='search-input' autocomplete='off' placeholder='Buscar...'>",
+    selectionHeader: "<div class='custom-header'>Necesidades del proyecto</div>",
+    afterInit: function(ms){
+      var that = this,
+          $selectableSearch = that.$selectableUl.prev(),
+          $selectionSearch = that.$selectionUl.prev(),
+          selectableSearchString = '#'+that.$container.attr('id')+' .ms-elem-selectable:not(.ms-selected)',
+          selectionSearchString = '#'+that.$container.attr('id')+' .ms-elem-selection.ms-selected';
+
+      that.qs1 = $selectableSearch.quicksearch(selectableSearchString)
+      .on('keydown', function(e){
+        if (e.which === 40){
+          that.$selectableUl.focus();
+          return false;
+        }
+      });
+
+      that.qs2 = $selectionSearch.quicksearch(selectionSearchString)
+      .on('keydown', function(e){
+        if (e.which == 40){
+          that.$selectionUl.focus();
+          return false;
+        }
+      });
+    },
+    afterSelect: function(){
+      this.qs1.cache();
+      this.qs2.cache();
+    },
+    afterDeselect: function(){
+      this.qs1.cache();
+      this.qs2.cache();
+    }
+  });
+					
+              $( '#id_expire_date' ).datepicker({
+                                                    dateFormat: "dd/mm/yy",
+                                                    firstDay: 1,
+                                                    dayNamesMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+                                                    dayNamesShort: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
+                                                    monthNames:
+                                                    ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio",
+                                                    "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+                                                    monthNamesShort:
+                                                    ["Ene", "Feb", "Mar", "Abr", "May", "Jun",
+                                                    "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"]
+                                                    });
+               
+ 
+               $('#id_content').editable({inlineMode: false, fontFamilyDefaultSelection: 'Ubuntu', theme: 'troca', placeholder: 'Cuéntanos en detalle sobre tu proyecto...', buttons: ['undo', 'redo' , 'sep', 'bold', 'italic', 'underline', 'fontSize',  "formatBlock", "align", 'sep', 'createLink', 'insertImage', 'insertVideo', 'sep', 'html' ],  })
+               /$('#id_needs').editable({inlineMode: false, fontFamilyDefaultSelection: 'Ubuntu', theme: 'troca', placeholder: 'Cuéntanos sobre cada una de las necesidades...', buttons: ['undo', 'redo' , 'sep', 'bold', 'italic', 'underline',  'sep', 'insertOrderedList' ],  })      
+						
+							 
+					 
+					
+		</script>
+
+
+
+<script  type="text/javascript">
+	
+	window.onload=function(){
+//    alert($('#submit-id-submit').html());
+   var info=$('#div_id_needs');
+//    alert(info.html())
+//    info.mouseenter(function(){
+   info.mousedown(function(){
+     escribirCategorias(false);
+   });   
+//    $('#submit-id-submit').attr("value","Actualizar");
+  
+	};
+	
+
+	
+  function cargarCategorias(b) { 
+     cate=$('#div_id_needs').find("p");     
+    if( b | cate.html() == "" | cate.html() == "<br>" ){
+        hijos="";
+        var ele = $('#ms-id_category');   
+        var childs = ele.find(".ms-selection").find("ul").children().each(function(i) { 
+        var t=$(this);
+          var nombre=t.find("span").html();   
+          hijos+="<li ";
+          if(t.attr("style") == "display: none;"){
+            hijos+=" style='display: none;' ";
+          }
+        hijos+=" id='"+normalize(nombre)+"'> <b>"+nombre+":</b>  <br/> </br> </li>";
+      });
+      cate.html(hijos);
+    }else{
+      var ele = $('#ms-id_category');   
+      var childs = ele.find(".ms-selection").find("ul").children().each(function(i) { 
+          var t=$(this);
+          var nombre=t.find("span").html();
+          var ele=$('#div_id_needs').find("p").find('#'+normalize(nombre));
+           if(t.attr("style") == "display: none;"){
+              ele.attr("style","display: none;");
+            }else{
+              ele.attr("style","");
+            }
+      });     
+     }
+  }
+    
+    function escribirCategorias(b) { 
+     cate=$('#div_id_needs').find("p");     
+    if( b | cate.html() == "" | cate.html() == "<br>" ){
+        hijos="";
+        var ele = $('#ms-id_category');   
+        var childs = ele.find(".ms-selection").find("ul").children(".ms-selected").each(function(i) { 
+        var t=$(this);
+          var nombre=t.find("span").html();   
+         
+        hijos+="<b>"+nombre+":</b> <br/> <br/>";
+      });
+      cate.html(hijos);
+    }else{
+      var ele = $('#ms-id_category');         
+      eleme=$('#div_id_needs').find("p");
+      ht1=eleme.html();
+			ht2="";
+      var childs = ele.find(".ms-selection").find("ul").children(".ms-selected").each(function(i) { 
+          var t=$(this);
+          var nombre=t.find("span").html();
+                  
+          if ( ! (ht1.indexOf(nombre+":")>=0)){
+            ht2 += "<b>"+nombre+":</b> <br/> <br/>";
+          }
+          
+      });
+			eleme.html(ht2+ht1);
+     }       
+}
+ 
+ 
+ function normalize(ret){
+   return ret.replace( /[^-A-Za-z0-9]+/g,'_').toLowerCase();   
+ }
+		
+	
+</script>
+
+
+{% endblock js %}
+
+{% endblock base_body %}
+
+

@@ -1,0 +1,107 @@
+
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}troca.beta | Configuración{% endblock title %}
+
+{% block base_body %}
+
+<!-- TOP BANNER DETAILS -->
+
+<div class="botborder" >
+    <div class="row ptb25 mrl20">
+        
+        <h1>Editar perfil</h1>
+        <p class="paragraph">Perfil de usuario <i class="fa fa-angle-right"></i><a href=""> {{ user.username }}</a>
+      <br>
+        <i class="fa fa-key"></i> <a href="#" data-reveal-id="secondModal">Cambiar Contraseña </a>
+      <br>
+        <i class="fa fa-trash-o"></i> <a href="#" data-reveal-id="firstModal" >Eliminar Perfil</a>
+      </p>      
+
+    </div>
+</div>
+<div class="bkg-white-main" >
+    <div class="row pb25 mrl20">
+      
+   {% crispy form %}
+     
+    </div>  
+</div>
+
+<!-- Reveal Modals begin -->
+<div id="firstModal" class="reveal-modal tiny" data-reveal aria-labelledby="firstModalTitle" aria-hidden="true" role="dialog">
+  <h2 id="firstModalTitle">Eliminar perfil.</h2>
+  <p>¿Seguro que quiere eliminar su perfil?</p>
+  <p><a href="/cerrar_perfil/{{user.username}}" class="secondary button">Eliminar</a>
+  <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+</div>
+
+<!-- Reveal Modals begin -->
+<div id="secondModal" class="reveal-modal tiny" data-reveal aria-labelledby="secondModalTitle" aria-hidden="true" role="dialog">
+  
+  <h3 id="secondModalTitle">Cambiar contraseña.</h3>
+  
+  <p>Ingrese la nueva contraseña</p> 
+  <input  type='password' id='contrasenaNueva' onkeyup='actualizarEnlaceNuevaContrasena()'>
+  <input  type='hidden' id='contrasenaUser' value="{{user.username}}">
+    
+  <p><a id="enlaceContrasena" href="#" class="secondary button">Cambiar</a>
+   <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+    
+</div>
+
+<script>
+  
+  
+    $(document).ready(function(){
+        $("#id_facebook").attr('placeholder', 'https://www.facebook.com/...');
+        $("#id_twitter").attr('placeholder', 'https://www.twitter.com/...');
+      $( "#settings" ).addClass("Offactive");
+			$( ".off-canvas-wrap" ).addClass("offcanvas-overlap");
+    });
+  
+  $('select').multiSelect({ 
+    //selectableHeader: "<div class='custom-header'>Habilidades</div>", selectionHeader: "<div class='custom-header'>Tengos</div>", 
+    keepOrder: true,
+    selectableHeader: "<div class='custom-header'>Habilidades disponibles</div> <span class='fa fa-search searchIcon'></span><input type='text' class='search-input' autocomplete='off' placeholder='Buscar...'>",
+    selectionHeader: "<div class='custom-header'>Tus habilidades</div>",
+    afterInit: function(ms){
+      var that = this,
+          $selectableSearch = that.$selectableUl.prev(),
+          //$selectionSearch = that.$selectionUl.prev(),
+          selectableSearchString = '#'+that.$container.attr('id')+' .ms-elem-selectable:not(.ms-selected)';
+          //selectionSearchString = '#'+that.$container.attr('id')+' .ms-elem-selection.ms-selected';
+
+      that.qs1 = $selectableSearch.quicksearch(selectableSearchString)
+      .on('keydown', function(e){
+        if (e.which === 40){
+          that.$selectableUl.focus();
+          return false;
+        }
+      });
+
+    },
+    afterSelect: function(){
+      this.qs1.cache();
+      //this.qs2.cache();
+    },
+    afterDeselect: function(){
+      this.qs1.cache();
+      //this.qs2.cache();
+    }
+  });
+  
+  
+  
+function actualizarEnlaceNuevaContrasena() {
+    var x = document.getElementById("contrasenaNueva");
+  var y = document.getElementById("contrasenaUser");
+      document.getElementById("enlaceContrasena").href="/cambiar_contrasena_usuario/"+x.value+"/"+y.value;
+}
+
+  
+</script>
+
+
+{% endblock base_body %}
